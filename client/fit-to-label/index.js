@@ -1,7 +1,4 @@
-import { is } from 'bpmn-js/lib/util/ModelUtil';
-import { isExpanded } from 'bpmn-js/lib/util/DiUtil';
-
-import { resolveSizeKey } from '../shared/types.mjs';
+import { sizeKeyForElement } from '../shared/element-key.js';
 import { getMin } from '../shared/sizes.mjs';
 import { computeFitBounds } from './compute.mjs';
 import TextUtil from 'diagram-js/lib/util/Text';
@@ -24,14 +21,8 @@ class FitToLabel {
     });
   }
 
-  _sizeKey(element) {
-    let key = resolveSizeKey((t) => is(element, t));
-    if (key === 'subprocess' && !isExpanded(element)) key = 'task';
-    return key;
-  }
-
   fit(element) {
-    const key = this._sizeKey(element);
+    const key = sizeKeyForElement(element);
     if (!key) return;
 
     const name = element.businessObject && element.businessObject.name;
@@ -54,7 +45,7 @@ class FitToLabel {
   }
 
   getContextPadEntries(element) {
-    if (!this._sizeKey(element)) return {};
+    if (!sizeKeyForElement(element)) return {};
     const self = this;
     return {
       'fit-to-label': {

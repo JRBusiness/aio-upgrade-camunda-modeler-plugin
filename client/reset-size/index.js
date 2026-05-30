@@ -1,7 +1,4 @@
-import { is } from 'bpmn-js/lib/util/ModelUtil';
-import { isExpanded } from 'bpmn-js/lib/util/DiUtil';
-
-import { resolveSizeKey } from '../shared/types.mjs';
+import { sizeKeyForElement } from '../shared/element-key.js';
 import { getDefault } from '../shared/sizes.mjs';
 
 class ResetSize {
@@ -18,14 +15,8 @@ class ResetSize {
     });
   }
 
-  _sizeKey(element) {
-    let key = resolveSizeKey((t) => is(element, t));
-    if (key === 'subprocess' && !isExpanded(element)) key = 'task';
-    return key;
-  }
-
   reset(element) {
-    const key = this._sizeKey(element);
+    const key = sizeKeyForElement(element);
     if (!key) return;
 
     const def = getDefault(key);
@@ -38,7 +29,7 @@ class ResetSize {
   }
 
   getContextPadEntries(element) {
-    if (!this._sizeKey(element)) return {};
+    if (!sizeKeyForElement(element)) return {};
     const self = this;
     return {
       'reset-size': {

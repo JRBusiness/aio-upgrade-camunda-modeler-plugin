@@ -1,7 +1,4 @@
-import { is } from 'bpmn-js/lib/util/ModelUtil';
-import { isExpanded } from 'bpmn-js/lib/util/DiUtil';
-
-import { resolveSizeKey } from '../shared/types.mjs';
+import { sizeKeyForElement } from '../shared/element-key.js';
 import { clampToMin } from '../shared/sizes.mjs';
 
 const STEP = 10;
@@ -15,12 +12,6 @@ class KeyboardResize {
     keyboard.addListener((context) => this._handle(context));
   }
 
-  _sizeKey(element) {
-    let key = resolveSizeKey((t) => is(element, t));
-    if (key === 'subprocess' && !isExpanded(element)) key = 'task';
-    return key;
-  }
-
   _handle(context) {
     const event = context.keyEvent;
 
@@ -31,7 +22,7 @@ class KeyboardResize {
     if (selected.length !== 1) return;
 
     const element = selected[0];
-    const key = this._sizeKey(element);
+    const key = sizeKeyForElement(element);
     if (!key) return;
 
     const shrink = event.altKey;
