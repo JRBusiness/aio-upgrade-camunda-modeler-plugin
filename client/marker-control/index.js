@@ -95,19 +95,43 @@ class MarkerControl {
     const gfx = this._elementRegistry.getGraphics(element);
     if (!gfx) return;
 
-    const markerEl = gfx.querySelector(MARKER_SELECTOR);
-    if (!markerEl) return;
+    // 1. Locate the path (the "+" glyph) — has baked-in default coordinates,
+    //    no base transform of its own.
+    const pathEl = gfx.querySelector(MARKER_SELECTOR);
+    if (!pathEl) return;
+
+    // 2. Locate the preceding sibling rect (the box drawn around the "+").
+    //    bpmn-js appends rect then path consecutively, so previousElementSibling
+    //    is the rect. Guard in case DOM differs.
+    const prevEl = pathEl.previousElementSibling;
+    const box = (prevEl && prevEl.tagName && prevEl.tagName.toLowerCase() === 'rect')
+      ? prevEl : null;
 
     if (this._hidden) {
-      markerEl.style.display = 'none';
+      pathEl.style.display = 'none';
+      if (box) box.style.display = 'none';
       return;
     }
 
-    markerEl.style.display = '';
+    pathEl.style.display = '';
+    if (box) box.style.display = '';
 
+    // 3. Default position bpmn-js uses for both elements (rect via its own
+    //    transform, path via baked path coordinates).
+    const defX = element.width / 2 - 7.5;
+    const defY = element.height - 20;
+
+    // 4. Target top-left corner for this position index.
     const position = POSITIONS[this._positionIndex];
-    const { tx, ty } = this._translateFor(position, element);
-    markerEl.setAttribute('transform', 'translate(' + tx + ',' + ty + ')');
+    const { tx: targetX, ty: targetY } = this._translateFor(position, element);
+
+    // 5a. Box is positioned by its SVG transform → set it absolutely.
+    if (box) box.setAttribute('transform', `translate(${targetX}, ${targetY})`);
+
+    // 5b. Path coordinates are baked at the default position → apply only the
+    //     DELTA so the path lands on target without double-stacking.
+    //     At bottom-center (index 0): delta = (0, 0) → exact no-op vs stock bpmn-js.
+    pathEl.setAttribute('transform', `translate(${targetX - defX}, ${targetY - defY})`);
   }
 
   _applyAll() {
