@@ -6,6 +6,7 @@ import resetSize from './reset-size';
 import keyboardResize from './keyboard-resize';
 import aspectLock from './aspect-lock';
 import flowAnimation from './flow-animation';
+import markerControl from './marker-control';
 
 const style = document.createElement('style');
 style.textContent = `
@@ -21,6 +22,7 @@ registerBpmnJSPlugin({
     resetSize,
     keyboardResize,
     aspectLock,
-    flowAnimation
+    flowAnimation,
+    markerControl
   ]
 });
