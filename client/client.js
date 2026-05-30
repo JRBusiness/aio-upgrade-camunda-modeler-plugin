@@ -4,6 +4,7 @@ import resizeRules from './resize-rules';
 import fitToLabel from './fit-to-label';
 import resetSize from './reset-size';
 import keyboardResize from './keyboard-resize';
+import aspectLock from './aspect-lock';
 
 const style = document.createElement('style');
 style.textContent = `
@@ -13,5 +14,5 @@ style.textContent = `
 document.head.appendChild(style);
 
 registerBpmnJSPlugin({
-  __depends__: [resizeRules, fitToLabel, resetSize, keyboardResize]
+  __depends__: [resizeRules, fitToLabel, resetSize, keyboardResize, aspectLock]
 });
