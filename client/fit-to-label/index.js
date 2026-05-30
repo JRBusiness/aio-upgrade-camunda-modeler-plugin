@@ -4,14 +4,15 @@ import { isExpanded } from 'bpmn-js/lib/util/DiUtil';
 import { resolveSizeKey } from '../shared/types.mjs';
 import { getMin } from '../shared/sizes.mjs';
 import { computeFitBounds } from './compute.mjs';
+import TextUtil from 'diagram-js/lib/util/Text';
 
 const PADDING = { top: 7, right: 5, bottom: 7, left: 5 };
 
 class FitToLabel {
   constructor(contextPad, modeling, textRenderer, editorActions, selection) {
     this._modeling = modeling;
-    this._textRenderer = textRenderer;
     this._selection = selection;
+    this._textUtil = new TextUtil({ style: textRenderer.getDefaultStyle() });
 
     contextPad.registerProvider(this);
 
@@ -36,7 +37,7 @@ class FitToLabel {
     const name = element.businessObject && element.businessObject.name;
     if (!name) return;
 
-    const dims = this._textRenderer.getDimensions(name, {
+    const dims = this._textUtil.getDimensions(name, {
       box: { width: element.width, height: element.height }
     });
 
