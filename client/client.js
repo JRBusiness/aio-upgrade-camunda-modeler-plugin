@@ -2,6 +2,7 @@ import { registerBpmnJSPlugin } from 'camunda-modeler-plugin-helpers';
 
 import resizeRules from './resize-rules';
 import fitToLabel from './fit-to-label';
+import resetSize from './reset-size';
 
 const style = document.createElement('style');
 style.textContent = `
@@ -11,5 +12,5 @@ style.textContent = `
 document.head.appendChild(style);
 
 registerBpmnJSPlugin({
-  __depends__: [resizeRules, fitToLabel]
+  __depends__: [resizeRules, fitToLabel, resetSize]
 });
