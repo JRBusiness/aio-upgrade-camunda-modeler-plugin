@@ -1,6 +1,7 @@
 import { registerBpmnJSPlugin } from 'camunda-modeler-plugin-helpers';
 
-// Modules are added to __depends__ as they are implemented.
+import resizeRules from './resize-rules';
+
 registerBpmnJSPlugin({
-  __depends__: []
+  __depends__: [resizeRules]
 });
