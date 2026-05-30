@@ -10,6 +10,7 @@ const CSS = `
   stroke-dasharray: 6 6;
   animation: rp-flow-dash 0.6s linear infinite;
 }
+.rp-icon-flow::before { content: "→"; font-style: normal; font-weight: bold; }
 `;
 
 class FlowAnimation {
@@ -40,7 +41,7 @@ class FlowAnimation {
     return {
       'toggle-flow-animation': {
         group: 'tools',
-        className: 'bpmn-icon-connection-multi',
+        className: 'rp-icon-flow',
         title: 'Toggle flow animation',
         action: {
           click: function () { self.toggle(); }

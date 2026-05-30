@@ -9,7 +9,7 @@ class KeyboardResize {
     this._modeling = modeling;
     this._selection = selection;
 
-    keyboard.addListener((context) => this._handle(context));
+    keyboard.addListener(2000, (context) => this._handle(context));
   }
 
   _handle(context) {
