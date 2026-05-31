@@ -8,6 +8,7 @@ import aspectLock from './aspect-lock';
 import flowAnimation from './flow-animation';
 import markerControl from './marker-control';
 import exportSvg from './export-svg';
+import flip from './flip';
 
 const style = document.createElement('style');
 style.textContent = `
@@ -25,6 +26,7 @@ registerBpmnJSPlugin({
     aspectLock,
     flowAnimation,
     markerControl,
-    exportSvg
+    exportSvg,
+    flip
   ]
 });
