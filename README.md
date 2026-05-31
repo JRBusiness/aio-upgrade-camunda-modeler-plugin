@@ -34,18 +34,33 @@ Editing helpers
 
 Connections
 
-- Flow animation: a palette button toggles an animated dashed line along
-  sequence and message flows. It is a viewing aid only.
+- Flow animation: select a sequence or message flow and use the "Toggle flow
+  animation" button in its context pad to run an animated dashed line along it.
+  Each connection animates independently. It is a viewing aid only.
 
 Collapsed sub-process marker
 
-- Two palette buttons let you hide or show the "+" marker on collapsed
-  sub-processes and cycle its position between bottom-center and the four
-  corners.
+- Select a collapsed sub-process and use its context-pad buttons to hide or show
+  the "+" marker and to cycle its position between bottom-center and the four
+  corners. Each sub-process keeps its own setting.
 
-Every size change goes through the modeler's command stack, so all of them can
-be undone with Ctrl+Z. The flow animation and marker options are display only
-and are not written to the BPMN XML.
+Flip a selection
+
+- Select two or more shapes; the align button appears (the same one used for
+  aligning elements). Open it and use the "Flip" group to mirror the selection
+  horizontally or vertically. Connections between the shapes re-route
+  automatically.
+
+Export animated SVG
+
+- A palette button exports the diagram as a self-contained SVG with the flow
+  animation embedded, so the dashes keep moving when the file is opened in a web
+  browser. Only the flows you have animated on screen are animated in the export.
+
+Resizing and flipping go through the modeler's command stack, so they can be
+undone with Ctrl+Z (a flip currently undoes one shape at a time). The flow
+animation, marker position, and SVG export are display only and never change the
+saved BPMN XML.
 
 ## Building
 
