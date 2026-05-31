@@ -1,7 +1,5 @@
-const CSS = `
-.rp-icon-flip-h::before { content: "\\21C6"; font-style: normal; font-weight: bold; }
-.rp-icon-flip-v::before { content: "\\21C5"; font-style: normal; font-weight: bold; }
-`;
+const ICON_H = '<svg width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><line x1="11" y1="3" x2="11" y2="19" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/><path d="M8 7 L4 11 L8 15 Z" fill="currentColor"/><path d="M14 7 L18 11 L14 15 Z" fill="currentColor"/></svg>';
+const ICON_V = '<svg width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><line x1="3" y1="11" x2="19" y2="11" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/><path d="M7 8 L11 4 L15 8 Z" fill="currentColor"/><path d="M7 14 L11 18 L15 14 Z" fill="currentColor"/></svg>';
 
 function isFlippableShape(el) {
   return el
@@ -13,25 +11,14 @@ function isFlippableShape(el) {
     && !!el.parent;       // exclude the root
 }
 
-class Flip {
-  constructor(palette, selection, modeling) {
-    this._selection = selection;
+class FlipMenuProvider {
+  constructor(popupMenu, modeling) {
     this._modeling = modeling;
-
-    this._injectStyle();
-    palette.registerProvider(this);
+    popupMenu.registerProvider('align-elements', 500, this);
   }
 
-  _injectStyle() {
-    if (document.getElementById('rp-flip-style')) return;
-    const style = document.createElement('style');
-    style.id = 'rp-flip-style';
-    style.textContent = CSS;
-    document.head.appendChild(style);
-  }
-
-  flip(axis) {
-    const shapes = this._selection.get().filter(isFlippableShape);
+  _flip(elements, axis) {
+    const shapes = elements.filter(isFlippableShape);
     if (shapes.length < 2) return;
 
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
@@ -42,7 +29,6 @@ class Flip {
       maxY = Math.max(maxY, s.y + s.height);
     });
 
-    // Compute all deltas from the original snapshot first, then apply.
     const moves = shapes.map((s) => {
       let dx = 0, dy = 0;
       if (axis === 'h') {
@@ -60,28 +46,34 @@ class Flip {
     });
   }
 
-  getPaletteEntries() {
+  getPopupMenuEntries(target) {
+    const elements = Array.isArray(target) ? target : [target];
+    const shapes = elements.filter(isFlippableShape);
+    if (shapes.length < 2) return {};
+
     const self = this;
     return {
-      'flip-horizontal': {
-        group: 'tools',
-        className: 'rp-icon-flip-h',
-        title: 'Flip selected horizontally',
-        action: { click: function () { self.flip('h'); } }
+      'flip-elements-horizontal': {
+        group: { id: 'flip', name: 'Flip' },
+        title: 'Flip horizontally',
+        className: 'rp-flip-menu-entry',
+        imageHtml: ICON_H,
+        action: function () { self._flip(elements, 'h'); }
       },
-      'flip-vertical': {
-        group: 'tools',
-        className: 'rp-icon-flip-v',
-        title: 'Flip selected vertically',
-        action: { click: function () { self.flip('v'); } }
+      'flip-elements-vertical': {
+        group: { id: 'flip', name: 'Flip' },
+        title: 'Flip vertically',
+        className: 'rp-flip-menu-entry',
+        imageHtml: ICON_V,
+        action: function () { self._flip(elements, 'v'); }
       }
     };
   }
 }
 
-Flip.$inject = ['palette', 'selection', 'modeling'];
+FlipMenuProvider.$inject = ['popupMenu', 'modeling'];
 
 export default {
   __init__: ['resizePlusFlip'],
-  resizePlusFlip: ['type', Flip]
+  resizePlusFlip: ['type', FlipMenuProvider]
 };
