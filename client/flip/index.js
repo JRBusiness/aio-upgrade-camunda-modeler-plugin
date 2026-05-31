@@ -13,6 +13,7 @@ function isFlippableShape(el) {
 
 class FlipMenuProvider {
   constructor(popupMenu, modeling) {
+    this._popupMenu = popupMenu;
     this._modeling = modeling;
     popupMenu.registerProvider('align-elements', 500, this);
   }
@@ -58,14 +59,14 @@ class FlipMenuProvider {
         title: 'Flip horizontally',
         className: 'rp-flip-menu-entry',
         imageHtml: ICON_H,
-        action: function () { self._flip(elements, 'h'); }
+        action: function () { self._flip(elements, 'h'); self._popupMenu.close(); }
       },
       'flip-elements-vertical': {
         group: { id: 'flip', name: 'Flip' },
         title: 'Flip vertically',
         className: 'rp-flip-menu-entry',
         imageHtml: ICON_V,
-        action: function () { self._flip(elements, 'v'); }
+        action: function () { self._flip(elements, 'v'); self._popupMenu.close(); }
       }
     };
   }
