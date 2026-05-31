@@ -7,6 +7,7 @@ import keyboardResize from './keyboard-resize';
 import aspectLock from './aspect-lock';
 import flowAnimation from './flow-animation';
 import markerControl from './marker-control';
+import exportSvg from './export-svg';
 
 const style = document.createElement('style');
 style.textContent = `
@@ -23,6 +24,7 @@ registerBpmnJSPlugin({
     keyboardResize,
     aspectLock,
     flowAnimation,
-    markerControl
+    markerControl,
+    exportSvg
   ]
 });
