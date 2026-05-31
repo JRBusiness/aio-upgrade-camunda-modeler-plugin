@@ -1,12 +1,13 @@
-# Camunda ResizePlus
+# AIO Upgrade Plugin for Camunda Modeler
 
-A plugin for the Camunda Modeler (5.x) that makes BPMN elements resizable and
-adds a few related editing conveniences.
+An all-in-one set of editing upgrades for the Camunda Modeler (5.x): resizable
+BPMN elements plus a handful of related conveniences.
 
 Out of the box the Camunda Modeler only lets you resize pools and expanded
 sub-processes. This plugin extends resizing to most other shapes and throws in
 keyboard resizing, fit-to-label, an aspect-ratio lock, an animated flow line,
-and some control over the collapsed sub-process marker.
+control over the collapsed sub-process marker, horizontal/vertical flipping of
+a selection, and an animated-SVG export.
 
 ## What it does
 
