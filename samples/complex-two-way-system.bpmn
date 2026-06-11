@@ -9,6 +9,7 @@
     <bpmn:messageFlow id="MessageFlow_Ship" name="Shipment notification" sourceRef="Task_Ship" targetRef="Participant_Customer" aio:animated="true" />
     <bpmn:messageFlow id="Flow_170ewdk" sourceRef="Task_Backorder" targetRef="Participant_Payment" aio:animated="true" aio:twoWay="true" />
     <bpmn:messageFlow id="Flow_1dyz5hw" sourceRef="Task_Reserve" targetRef="Participant_Warehouse" aio:animated="true" aio:twoWay="true" />
+    <bpmn:group id="Group_12gj2fu" aio:background="true" />
   </bpmn:collaboration>
   <bpmn:process id="Process_Order" isExecutable="false">
     <bpmn:laneSet id="LaneSet_0444kqz" />
@@ -67,144 +68,147 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <bpmndi:BPMNShape id="Group_12gj2fu_di" bpmnElement="Group_12gj2fu">
+        <dc:Bounds x="120" y="80" width="1450" height="810" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_Customer_di" bpmnElement="Participant_Customer" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="1370" height="100" />
+        <dc:Bounds x="160" y="130" width="1370" height="100" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_Order_di" bpmnElement="Participant_Order" isHorizontal="true" isExpanded="true">
-        <dc:Bounds x="160" y="230" width="1370" height="320" />
+        <dc:Bounds x="160" y="280" width="1370" height="320" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_OrderReceived_di" bpmnElement="StartEvent_OrderReceived">
-        <dc:Bounds x="242" y="342" width="36" height="36" />
+        <dc:Bounds x="242" y="392" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="225" y="385" width="73" height="14" />
+          <dc:Bounds x="225" y="435" width="73" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_Validate_di" bpmnElement="Task_Validate">
-        <dc:Bounds x="330" y="320" width="100" height="80" />
+        <dc:Bounds x="330" y="370" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_Valid_di" bpmnElement="Gateway_Valid" isMarkerVisible="true">
-        <dc:Bounds x="485" y="335" width="50" height="50" />
+        <dc:Bounds x="485" y="385" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="480" y="305" width="60" height="14" />
+          <dc:Bounds x="480" y="355" width="60" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_Rejected_di" bpmnElement="EndEvent_Rejected">
-        <dc:Bounds x="492" y="470" width="36" height="36" />
+        <dc:Bounds x="492" y="520" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="475" y="513" width="71" height="14" />
+          <dc:Bounds x="475" y="563" width="71" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_Reserve_di" bpmnElement="Task_Reserve">
-        <dc:Bounds x="590" y="260" width="100" height="140" />
+        <dc:Bounds x="590" y="310" width="100" height="140" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_Stock_di" bpmnElement="Gateway_Stock" isMarkerVisible="true">
-        <dc:Bounds x="745" y="335" width="50" height="50" />
+        <dc:Bounds x="745" y="385" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="748" y="305" width="45" height="14" />
+          <dc:Bounds x="748" y="355" width="45" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_Backorder_di" bpmnElement="Task_Backorder">
-        <dc:Bounds x="720" y="448" width="100" height="58" />
+        <dc:Bounds x="720" y="498" width="100" height="58" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_Payment_di" bpmnElement="Task_Payment">
-        <dc:Bounds x="850" y="320" width="100" height="80" />
+        <dc:Bounds x="850" y="370" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_Ship_di" bpmnElement="Task_Ship">
-        <dc:Bounds x="1010" y="320" width="100" height="80" />
+        <dc:Bounds x="1010" y="370" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_Completed_di" bpmnElement="EndEvent_Completed">
-        <dc:Bounds x="1182" y="342" width="36" height="36" />
+        <dc:Bounds x="1182" y="392" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1160" y="385" width="82" height="14" />
+          <dc:Bounds x="1160" y="435" width="82" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_Backordered_di" bpmnElement="EndEvent_Backordered">
-        <dc:Bounds x="902" y="470" width="36" height="36" />
+        <dc:Bounds x="902" y="520" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="889" y="513" width="63" height="14" />
+          <dc:Bounds x="889" y="563" width="63" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_Start_Validate_di" bpmnElement="Flow_Start_Validate" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="278" y="360" />
-        <di:waypoint x="330" y="360" />
+        <di:waypoint x="278" y="410" />
+        <di:waypoint x="330" y="410" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Validate_GWValid_di" bpmnElement="Flow_Validate_GWValid" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="430" y="360" />
-        <di:waypoint x="485" y="360" />
+        <di:waypoint x="430" y="410" />
+        <di:waypoint x="485" y="410" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Valid_Reserve_di" bpmnElement="Flow_Valid_Reserve" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="535" y="360" />
-        <di:waypoint x="590" y="360" />
+        <di:waypoint x="535" y="410" />
+        <di:waypoint x="590" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="554" y="342" width="18" height="14" />
+          <dc:Bounds x="554" y="392" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Valid_Rejected_di" bpmnElement="Flow_Valid_Rejected" bioc:stroke="#831311" color:border-color="#831311">
-        <di:waypoint x="510" y="385" />
-        <di:waypoint x="510" y="470" />
+        <di:waypoint x="510" y="435" />
+        <di:waypoint x="510" y="520" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="517" y="420" width="13" height="14" />
+          <dc:Bounds x="517" y="470" width="13" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Reserve_GWStock_di" bpmnElement="Flow_Reserve_GWStock" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="690" y="360" />
-        <di:waypoint x="745" y="360" />
+        <di:waypoint x="690" y="410" />
+        <di:waypoint x="745" y="410" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Stock_Payment_di" bpmnElement="Flow_Stock_Payment" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="795" y="360" />
-        <di:waypoint x="850" y="360" />
+        <di:waypoint x="795" y="410" />
+        <di:waypoint x="850" y="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="814" y="342" width="18" height="14" />
+          <dc:Bounds x="814" y="392" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Stock_Backorder_di" bpmnElement="Flow_Stock_Backorder" bioc:stroke="#6b3c00" color:border-color="#6b3c00">
-        <di:waypoint x="770" y="385" />
-        <di:waypoint x="770" y="448" />
+        <di:waypoint x="770" y="435" />
+        <di:waypoint x="770" y="498" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="777" y="398" width="13" height="14" />
+          <dc:Bounds x="777" y="448" width="13" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Backorder_End_di" bpmnElement="Flow_Backorder_End" bioc:stroke="#831311" color:border-color="#831311">
-        <di:waypoint x="820" y="488" />
-        <di:waypoint x="902" y="488" />
+        <di:waypoint x="820" y="538" />
+        <di:waypoint x="902" y="538" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Payment_Ship_di" bpmnElement="Flow_Payment_Ship" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="950" y="360" />
-        <di:waypoint x="1010" y="360" />
+        <di:waypoint x="950" y="410" />
+        <di:waypoint x="1010" y="410" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Ship_Completed_di" bpmnElement="Flow_Ship_Completed" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="1110" y="360" />
-        <di:waypoint x="1182" y="360" />
+        <di:waypoint x="1110" y="410" />
+        <di:waypoint x="1182" y="410" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_Warehouse_di" bpmnElement="Participant_Warehouse" isHorizontal="true">
-        <dc:Bounds x="160" y="620" width="620" height="110" />
+        <dc:Bounds x="160" y="670" width="620" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_Payment_di" bpmnElement="Participant_Payment" isHorizontal="true">
-        <dc:Bounds x="820" y="620" width="710" height="110" />
+        <dc:Bounds x="820" y="670" width="710" height="110" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="MessageFlow_Submit_di" bpmnElement="MessageFlow_Submit" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="260" y="180" />
-        <di:waypoint x="260" y="342" />
+        <di:waypoint x="260" y="230" />
+        <di:waypoint x="260" y="392" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="266" y="250" width="63" height="14" />
+          <dc:Bounds x="266" y="300" width="63" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="MessageFlow_Ship_di" bpmnElement="MessageFlow_Ship" bioc:stroke="#205022" color:border-color="#205022">
-        <di:waypoint x="1060" y="320" />
-        <di:waypoint x="1060" y="180" />
+        <di:waypoint x="1060" y="370" />
+        <di:waypoint x="1060" y="230" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1077" y="240" width="53" height="27" />
+          <dc:Bounds x="1077" y="290" width="53" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_170ewdk_di" bpmnElement="Flow_170ewdk" bioc:stroke="#0d4372" color:border-color="#0d4372">
-        <di:waypoint x="770" y="506" />
-        <di:waypoint x="770" y="563" />
-        <di:waypoint x="1150" y="563" />
-        <di:waypoint x="1150" y="620" />
+        <di:waypoint x="770" y="556" />
+        <di:waypoint x="770" y="613" />
+        <di:waypoint x="1150" y="613" />
+        <di:waypoint x="1150" y="670" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1dyz5hw_di" bpmnElement="Flow_1dyz5hw" bioc:stroke="#5b176d" color:border-color="#5b176d">
-        <di:waypoint x="640" y="400" />
-        <di:waypoint x="640" y="620" />
+        <di:waypoint x="640" y="450" />
+        <di:waypoint x="640" y="670" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

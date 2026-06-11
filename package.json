@@ -22,6 +22,7 @@
   "dependencies": {
     "bpmn-js": "^17.0.0",
     "diagram-js": "^14.0.0",
+    "gifenc": "^1.0.3",
     "inherits-browser": "^0.1.0"
   }
 }

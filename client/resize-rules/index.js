@@ -2,6 +2,7 @@ import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider';
 
 import { sizeKeyForElement } from '../shared/element-key.js';
 import { belowMin } from '../shared/sizes.mjs';
+import { isBackgroundBox } from '../shared/background.js';
 
 const HIGH_PRIORITY = 2000;
 
@@ -12,6 +13,11 @@ class ResizeRules extends RuleProvider {
 
   init() {
     this.addRule('shape.resize', HIGH_PRIORITY, ({ shape, newBounds }) => {
+      // Background boxes resize freely (no minimum) so they can cover anything.
+      if (isBackgroundBox(shape)) {
+        return true;
+      }
+
       const key = sizeKeyForElement(shape);
 
       if (key === null) {
