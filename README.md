@@ -15,7 +15,7 @@ Out of the box the Camunda Modeler only lets you resize pools and expanded
 sub-processes. This plugin extends resizing to most other shapes and throws in
 keyboard resizing, fit-to-label, an aspect-ratio lock, an animated flow line,
 control over the collapsed sub-process marker, horizontal/vertical flipping of
-a selection, and an animated-SVG export.
+a selection, background boxes, and animated SVG / GIF export.
 
 ## What it does
 
@@ -68,20 +68,32 @@ Flip a selection
   horizontally or vertically. Connections between the shapes re-route
   automatically.
 
-Export animated SVG
+Background box
 
-- A palette button exports the diagram as a self-contained SVG with the flow
-  animation embedded, so it keeps playing when the file is opened in a web
-  browser or an image preview (the motion uses CSS, not SMIL, so it runs wherever
-  CSS animations do). Only the flows you have animated on screen are animated in
-  the export. The export also carries the two-way arrows and, where a flow is
-  both two-way and animated, the back-and-forth circle. The cover image at the
-  top of this README is one such export.
+- Use the "BG" tool in the left palette to drop a background box, then drag its
+  handles to size it anywhere with no minimum. It draws as a clean filled
+  rectangle and always stays behind everything else, so you can shade or group
+  regions of a diagram. Recolour the fill and border with Camunda Modeler's
+  colour picker. It is a real, saved element (a bpmn:Group), undoable with
+  Ctrl+Z.
+
+Export (SVG / GIF)
+
+- The "SVG" palette button exports the diagram as a self-contained animated SVG,
+  so it keeps playing when opened in a web browser or an image preview (the
+  motion uses CSS, not SMIL, so it runs wherever CSS animations do). The cover
+  image at the top of this README is one such export.
+- The "GIF" palette button captures the animation and saves a looping GIF
+  (~4.4s, 12 fps, scaled to <=1000px). Handy where an animated SVG won't play —
+  Reddit, chat apps, slide decks.
+- For both, only the flows you have animated on screen move; the export also
+  carries the two-way arrows and, where a flow is both two-way and animated, the
+  back-and-forth circle.
 
 Resizing and flipping go through the modeler's command stack, so they can be
 undone with Ctrl+Z (a flip currently undoes one shape at a time). The flow
-animation, marker position, and SVG export are display only and never change the
-saved BPMN XML.
+animation, two-way state, collapsed-marker setting and background boxes are saved
+with the diagram; the SVG/GIF exports are one-off downloads and never change it.
 
 ## Building
 

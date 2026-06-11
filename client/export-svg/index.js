@@ -27,7 +27,7 @@ class ExportSvg {
     const style = document.createElement('style');
     style.id = STYLE_ID;
     style.textContent =
-      '.rp-icon-export::before { content: "\\2913"; font-style: normal; font-weight: bold; }';
+      '.rp-icon-export::before { content: "SVG"; font-style: normal; font-weight: bold; font-size: 11px; }';
     document.head.appendChild(style);
   }
 
@@ -124,7 +124,7 @@ class ExportSvg {
       'export-animated-svg': {
         group: 'tools',
         className: 'rp-icon-export',
-        title: 'Export animated SVG',
+        title: 'SVG',
         action: {
           click: function () { self.exportSvg(); }
         }

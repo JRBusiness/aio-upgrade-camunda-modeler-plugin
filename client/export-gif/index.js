@@ -2,7 +2,7 @@ import { query as domQuery } from 'min-dom';
 import { GIFEncoder, quantize, applyPalette } from 'gifenc';
 
 const STYLE_ID = 'rp-export-gif-style';
-const ICON_CSS = '.rp-icon-gif::before { content: "\\23FA"; font-style: normal; }';
+const ICON_CSS = '.rp-icon-gif::before { content: "GIF"; font-style: normal; font-weight: bold; font-size: 11px; }';
 
 // Balanced preset. Duration is two dot cycles (2 x 2.2s) so the dot loops
 // seamlessly; the short dash pattern's seam is imperceptible.
@@ -103,7 +103,7 @@ class ExportGif {
       'export-animated-gif': {
         group: 'tools',
         className: 'rp-icon-gif',
-        title: 'Save animated GIF',
+        title: 'GIF',
         action: {
           click: function () { self.exportGif(); }
         }

@@ -1,4 +1,5 @@
 import BaseRenderer from 'diagram-js/lib/draw/BaseRenderer';
+import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 import { append as svgAppend, create as svgCreate, attr as svgAttr } from 'tiny-svg';
 import { getFillColor, getStrokeColor } from 'bpmn-js/lib/draw/BpmnRenderUtil';
 
@@ -11,7 +12,7 @@ const RENDER_PRIORITY = 1500;
 const DEFAULT_FILL = '#f5f5f5';
 const DEFAULT_STROKE = '#bbbbbb';
 
-const ICON_CSS = '.rp-icon-bg::before { content: "\\25AD"; font-style: normal; }';
+const ICON_CSS = '.rp-icon-bg::before { content: "BG"; font-style: normal; font-weight: bold; font-size: 11px; }';
 
 /**
  * Draws aio:background groups as a clean filled rectangle and keeps them at the
@@ -49,7 +50,7 @@ class BackgroundBoxRenderer extends BaseRenderer {
     });
     svgAppend(parentGfx, rect);
 
-    sendGfxToBack(parentGfx);
+    backElementGfx(parentGfx && parentGfx.parentNode);
 
     return rect;
   }
@@ -62,16 +63,16 @@ class BackgroundBoxRenderer extends BaseRenderer {
 
 BackgroundBoxRenderer.$inject = ['eventBus'];
 
-// Given the .djs-visual passed to drawShape, climb to the element's outer
-// .djs-group wrapper and move it to the front of its sibling container, so the
-// box paints first (behind everything else in that container).
-function sendGfxToBack(parentGfx) {
-  const elementGfx = parentGfx && parentGfx.parentNode;     // .djs-element
+// Move an element's outer .djs-group wrapper to the front of its sibling
+// container, so it paints first (behind everything else in that container).
+// `elementGfx` is the .djs-element node (what getGraphics returns / the parent
+// of .djs-visual).
+function backElementGfx(elementGfx) {
   const groupGfx = elementGfx && elementGfx.parentNode;     // .djs-group wrapper
   if (!groupGfx || !groupGfx.classList || !groupGfx.classList.contains('djs-group')) {
     return;
   }
-  const container = groupGfx.parentNode;                    // parent's .djs-children
+  const container = groupGfx.parentNode;                    // sibling container
   if (container && container.firstChild !== groupGfx) {
     container.insertBefore(groupGfx, container.firstChild);
   }
@@ -131,8 +132,62 @@ class BackgroundBoxPalette {
 
 BackgroundBoxPalette.$inject = ['palette', 'create', 'elementFactory', 'bpmnFactory'];
 
+/**
+ * Force background boxes to be created at the diagram ROOT, never nested inside
+ * another element. bpmn-js lets a group be created against any target (BpmnRules
+ * canCreate returns true for groups), so dropping a second box ONTO the first
+ * box would otherwise make the first box its parent -- and that nesting corrupted
+ * the first box's contents. Re-parenting to root keeps every box independent and
+ * able to span the whole diagram.
+ */
+class BackgroundBoxParent extends CommandInterceptor {
+  constructor(eventBus, canvas) {
+    super(eventBus);
+    this.preExecute('shape.create', 2000, (event) => {
+      const shape = event.context.shape;
+      if (isBackgroundBox(shape)) {
+        event.context.parent = canvas.getRootElement();
+      }
+    });
+  }
+}
+
+BackgroundBoxParent.$inject = ['eventBus', 'canvas'];
+
+/**
+ * Re-asserts the back z-order for every background box after any change. The
+ * renderer self-heals on (re)draw, but a plain MOVE only translates the existing
+ * graphics (no redraw) and can leave the box re-appended on top of its siblings
+ * -- e.g. when a move re-parents it into a pool, hiding that pool's shapes.
+ * Pushing every background box to the back on each change keeps them behind.
+ */
+class BackgroundBoxOrder {
+  constructor(eventBus, elementRegistry) {
+    this._elementRegistry = elementRegistry;
+    eventBus.on(
+      ['commandStack.changed', 'element.changed', 'elements.changed', 'import.render.complete'],
+      () => this._reassert()
+    );
+  }
+
+  _reassert() {
+    this._elementRegistry
+      .filter((el) => isBackgroundBox(el))
+      .forEach((el) => backElementGfx(this._elementRegistry.getGraphics(el)));
+  }
+}
+
+BackgroundBoxOrder.$inject = ['eventBus', 'elementRegistry'];
+
 export default {
-  __init__: ['rpBackgroundBoxRenderer', 'rpBackgroundBoxPalette'],
+  __init__: [
+    'rpBackgroundBoxRenderer',
+    'rpBackgroundBoxPalette',
+    'rpBackgroundBoxParent',
+    'rpBackgroundBoxOrder'
+  ],
   rpBackgroundBoxRenderer: ['type', BackgroundBoxRenderer],
-  rpBackgroundBoxPalette: ['type', BackgroundBoxPalette]
+  rpBackgroundBoxPalette: ['type', BackgroundBoxPalette],
+  rpBackgroundBoxParent: ['type', BackgroundBoxParent],
+  rpBackgroundBoxOrder: ['type', BackgroundBoxOrder]
 };
