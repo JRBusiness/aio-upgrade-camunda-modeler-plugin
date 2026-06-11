@@ -1,5 +1,13 @@
 # AIO Upgrade Plugin for Camunda Modeler
 
+<p align="center">
+  <img src="samples/diagram-animated.svg" alt="Animated BPMN diagram exported by the plugin" width="100%">
+</p>
+
+> Cover is a real animated-SVG export. GitHub shows it static — open
+> [samples/diagram-animated.svg](samples/diagram-animated.svg) in a browser to
+> watch the flows animate.
+
 An all-in-one set of editing upgrades for the Camunda Modeler (5.x): resizable
 BPMN elements plus a handful of related conveniences.
 
@@ -67,9 +75,8 @@ Export animated SVG
   browser or an image preview (the motion uses CSS, not SMIL, so it runs wherever
   CSS animations do). Only the flows you have animated on screen are animated in
   the export. The export also carries the two-way arrows and, where a flow is
-  both two-way and animated, the back-and-forth circle.
-- Example output: [samples/diagram-animated.svg](samples/diagram-animated.svg) —
-  download it and open in a browser (or image preview) to see the flows animate.
+  both two-way and animated, the back-and-forth circle. The cover image at the
+  top of this README is one such export.
 
 Resizing and flipping go through the modeler's command stack, so they can be
 undone with Ctrl+Z (a flip currently undoes one shape at a time). The flow
