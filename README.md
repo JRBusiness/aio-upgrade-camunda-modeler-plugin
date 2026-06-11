@@ -68,9 +68,8 @@ Export animated SVG
   CSS animations do). Only the flows you have animated on screen are animated in
   the export. The export also carries the two-way arrows and, where a flow is
   both two-way and animated, the back-and-forth circle.
-- Example output:
-  [diagram-animated.svg](file:///c:/Users/dildev/Documents/github/ipaforge/examples/diagram-animated.svg)
-  (open in a browser or image preview to see it animate).
+- Example output: [samples/diagram-animated.svg](samples/diagram-animated.svg) —
+  download it and open in a browser (or image preview) to see the flows animate.
 
 Resizing and flipping go through the modeler's command stack, so they can be
 undone with Ctrl+Z (a flip currently undoes one shape at a time). The flow
