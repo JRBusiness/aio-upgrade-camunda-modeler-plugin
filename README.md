@@ -34,8 +34,9 @@ Editing helpers
 
 Connections
 
-- Flows are drawn solid by default (message flows too, which BPMN normally
-  dashes); the dashed look is reserved for the flow animation below.
+- Flows are drawn solid with a filled arrowhead by default (message flows too,
+  which BPMN normally dashes with a hollow arrow); the dashed look is reserved
+  for the flow animation below.
 - Flow animation: select a sequence or message flow and use the "Toggle flow
   animation" button in its context pad to run an animated dashed line along it.
   Each connection animates independently. It is a viewing aid only. You can
@@ -62,10 +63,11 @@ Flip a selection
 Export animated SVG
 
 - A palette button exports the diagram as a self-contained SVG with the flow
-  animation embedded, so the dashes keep moving when the file is opened in a web
-  browser. Only the flows you have animated on screen are animated in the export.
-  The export also carries two-way arrows and, where a flow is both two-way and
-  animated, the back-and-forth dot.
+  animation embedded, so it keeps playing when the file is opened in a web
+  browser or an image preview (the motion uses CSS, not SMIL, so it runs wherever
+  CSS animations do). Only the flows you have animated on screen are animated in
+  the export. The export also carries the two-way arrows and, where a flow is
+  both two-way and animated, the back-and-forth circle.
 
 Resizing and flipping go through the modeler's command stack, so they can be
 undone with Ctrl+Z (a flip currently undoes one shape at a time). The flow
