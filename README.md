@@ -4,10 +4,6 @@
   <img src="samples/diagram-animated.svg" alt="Animated BPMN diagram exported by the plugin" width="100%">
 </p>
 
-> Cover is a real animated-SVG export. GitHub shows it static — open
-> [samples/diagram-animated.svg](samples/diagram-animated.svg) in a browser to
-> watch the flows animate.
-
 An all-in-one set of editing upgrades for the Camunda Modeler (5.x): resizable
 BPMN elements plus a handful of related conveniences.
 
