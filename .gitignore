@@ -1,3 +1,4 @@
 node_modules/
 client/client-bundle.js
 client/client-bundle.js.map
+scratch/

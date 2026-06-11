@@ -86,9 +86,6 @@ Export (SVG / GIF)
 - The "GIF" palette button captures the animation and saves a looping GIF
   (~4.4s, 12 fps, scaled to <=1000px). Handy where an animated SVG won't play —
   Reddit, chat apps, slide decks.
-- For both, only the flows you have animated on screen move; the export also
-  carries the two-way arrows and, where a flow is both two-way and animated, the
-  back-and-forth circle.
 
 Resizing and flipping go through the modeler's command stack, so they can be
 undone with Ctrl+Z (a flip currently undoes one shape at a time). The flow
