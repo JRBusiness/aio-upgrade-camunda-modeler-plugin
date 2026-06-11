@@ -34,15 +34,23 @@ Editing helpers
 
 Connections
 
+- Flows are drawn solid by default (message flows too, which BPMN normally
+  dashes); the dashed look is reserved for the flow animation below.
 - Flow animation: select a sequence or message flow and use the "Toggle flow
   animation" button in its context pad to run an animated dashed line along it.
-  Each connection animates independently. It is a viewing aid only.
+  Each connection animates independently. It is a viewing aid only. You can
+  also toggle it on the selected flow(s) with Ctrl+Shift+L.
+- Two-way line: select a flow and use the "Toggle two-way line" button in its
+  context pad to draw the line solid with a filled arrowhead on both ends. When
+  a two-way line is also animated, a circle slides back and forth along it (the
+  one-way marching-dash animation is replaced by the moving circle). Visual only.
 
 Collapsed sub-process marker
 
 - Select a collapsed sub-process and use its context-pad buttons to hide or show
   the "+" marker and to cycle its position between bottom-center and the four
-  corners. Each sub-process keeps its own setting.
+  corners. Each sub-process keeps its own setting. The hide/position choice now
+  persists with the file and is restored when you reopen the diagram.
 
 Flip a selection
 
@@ -56,6 +64,8 @@ Export animated SVG
 - A palette button exports the diagram as a self-contained SVG with the flow
   animation embedded, so the dashes keep moving when the file is opened in a web
   browser. Only the flows you have animated on screen are animated in the export.
+  The export also carries two-way arrows and, where a flow is both two-way and
+  animated, the back-and-forth dot.
 
 Resizing and flipping go through the modeler's command stack, so they can be
 undone with Ctrl+Z (a flip currently undoes one shape at a time). The flow

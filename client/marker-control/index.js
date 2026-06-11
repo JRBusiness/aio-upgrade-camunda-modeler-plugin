@@ -11,8 +11,9 @@ const CSS = `
 `;
 
 class MarkerControl {
-  constructor(contextPad, elementRegistry, eventBus) {
+  constructor(contextPad, elementRegistry, modeling, eventBus) {
     this._elementRegistry = elementRegistry;
+    this._modeling = modeling;
     this._state = {}; // element.id -> { hidden, positionIndex }
 
     this._injectStyle();
@@ -26,6 +27,22 @@ class MarkerControl {
       'import.done',
       'import.render.complete'
     ], () => this._reapply());
+
+    eventBus.on(['import.done', 'import.render.complete'], () => {
+      this._elementRegistry.filter((el) => this._isCollapsedSubProcess(el)).forEach((el) => {
+        if (this._state[el.id]) return; // already tracked this session
+        const bo = el.businessObject;
+        if (!bo || typeof bo.get !== 'function') return;
+        const hidden = bo.get('aio:markerHidden');
+        const pos = bo.get('aio:markerPosition');
+        const hiddenOn = hidden === true || hidden === 'true';
+        const posNum = (pos === undefined || pos === null) ? 0 : Number(pos);
+        if (hiddenOn || posNum) {
+          this._state[el.id] = { hidden: hiddenOn, positionIndex: (posNum >= 0 && posNum < 5) ? posNum : 0 };
+          this._applyMarker(el);
+        }
+      });
+    });
   }
 
   _injectStyle() {
@@ -98,12 +115,24 @@ class MarkerControl {
     const s = this._stateFor(element);
     s.hidden = !s.hidden;
     this._applyMarker(element);
+    this._persist(element);
   }
 
   cyclePosition(element) {
     const s = this._stateFor(element);
     s.positionIndex = (s.positionIndex + 1) % POSITIONS.length;
     this._applyMarker(element);
+    this._persist(element);
+  }
+
+  _persist(element) {
+    const s = this._state[element.id];
+    try {
+      this._modeling.updateProperties(element, {
+        'aio:markerHidden': s.hidden ? true : undefined,
+        'aio:markerPosition': s.positionIndex !== 0 ? s.positionIndex : undefined
+      });
+    } catch (e) { /* ignore if extension unavailable */ }
   }
 
   getContextPadEntries(element) {
@@ -126,7 +155,7 @@ class MarkerControl {
   }
 }
 
-MarkerControl.$inject = ['contextPad', 'elementRegistry', 'eventBus'];
+MarkerControl.$inject = ['contextPad', 'elementRegistry', 'modeling', 'eventBus'];
 
 export default {
   __init__: ['resizePlusMarkerControl'],

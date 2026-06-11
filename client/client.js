@@ -1,4 +1,4 @@
-import { registerBpmnJSPlugin } from 'camunda-modeler-plugin-helpers';
+import { registerBpmnJSPlugin, registerBpmnJSModdleExtension } from 'camunda-modeler-plugin-helpers';
 
 import resizeRules from './resize-rules';
 import fitToLabel from './fit-to-label';
@@ -9,6 +9,7 @@ import flowAnimation from './flow-animation';
 import markerControl from './marker-control';
 import exportSvg from './export-svg';
 import flip from './flip';
+import twoWay from './two-way';
 
 const style = document.createElement('style');
 style.textContent = `
@@ -16,6 +17,35 @@ style.textContent = `
   .rp-icon-reset::before { content: "\\21BA"; font-style: normal; }
 `;
 document.head.appendChild(style);
+
+const aioUpgradeModdleDescriptor = {
+  name: 'AIOUpgrade',
+  uri: 'http://aio-upgrade/schema/1.0',
+  prefix: 'aio',
+  xml: { tagAlias: 'lowerCase' },
+  types: [
+    {
+      name: 'AnimatedFlow',
+      extends: ['bpmn:SequenceFlow', 'bpmn:MessageFlow'],
+      properties: [
+        { name: 'animated', isAttr: true, type: 'Boolean' },
+        { name: 'twoWay', isAttr: true, type: 'Boolean' }
+      ]
+    },
+    {
+      name: 'MarkerStyle',
+      extends: [ 'bpmn:SubProcess' ],
+      properties: [
+        { name: 'markerHidden', isAttr: true, type: 'Boolean' },
+        { name: 'markerPosition', isAttr: true, type: 'Integer' }
+      ]
+    }
+  ],
+  enumerations: [],
+  associations: []
+};
+
+registerBpmnJSModdleExtension(aioUpgradeModdleDescriptor);
 
 registerBpmnJSPlugin({
   __depends__: [
@@ -27,6 +57,7 @@ registerBpmnJSPlugin({
     flowAnimation,
     markerControl,
     exportSvg,
-    flip
+    flip,
+    twoWay
   ]
 });

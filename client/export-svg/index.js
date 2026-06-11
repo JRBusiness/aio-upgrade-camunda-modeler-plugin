@@ -1,15 +1,18 @@
 import { query as domQuery } from 'min-dom';
 import { innerSVG } from 'tiny-svg';
 
+import { getFlowVisualCss } from '../shared/flow-visual';
+
 const STYLE_ID = 'rp-export-svg-style';
 
-// Animation CSS embedded into the exported SVG. Mirrors the rule the
-// flow-animation module injects into the page so that connections carrying
-// the `rp-flow-animated` class keep animating when the .svg is opened
-// standalone in a browser.
-const EMBEDDED_CSS =
-  '@keyframes rp-flow-dash { to { stroke-dashoffset: -24; } }\n' +
-  '.rp-flow-animated .djs-visual path { stroke-dasharray: 6 6; animation: rp-flow-dash 0.6s linear infinite; }';
+// Reverse-arrow marker, identical to the one in client/two-way/index.js so the
+// exported SVG renders two-way flows the same way the editor does.
+const MARKER_ID = 'rp-arrow-back';
+
+const MARKER_HTML =
+  '<marker id="' + MARKER_ID + '" viewBox="0 0 20 20" refX="11" refY="10" ' +
+  'markerWidth="10" markerHeight="10" orient="auto-start-reverse">' +
+  '<path d="M 1 5 L 11 10 L 1 15 Z" style="fill: context-stroke; stroke: context-stroke; stroke-width: 1;" /></marker>';
 
 class ExportSvg {
   constructor(canvas, palette) {
@@ -65,7 +68,8 @@ class ExportSvg {
   }
 
   /**
-   * Splice the embedded <style> block immediately after the opening <svg> tag.
+   * Splice the embedded <style> block (and, when missing, the reverse-arrow
+   * marker defs) immediately after the opening <svg> tag.
    *
    * @param {string} svg
    *
@@ -78,11 +82,21 @@ class ExportSvg {
     const openTagEnd = svg.indexOf('>', svgTagStart);
     if (openTagEnd === -1) return svg;
 
-    const styleBlock =
-      '<style type="text/css"><![CDATA[\n' + EMBEDDED_CSS + '\n]]></style>';
+    // Embed the live flow-visual stylesheet: the dash keyframes, the dot colour,
+    // and the per-line dot motion keyframes generated for the animated two-way
+    // flows in this diagram.
+    let block =
+      '<style type="text/css"><![CDATA[\n' + getFlowVisualCss() + '\n]]></style>';
+
+    // The two-way module injects the reverse-arrow marker into the canvas defs
+    // at runtime, so it may already be present in the serialized output. Only
+    // add it when missing, to avoid a duplicate marker id.
+    if (svg.indexOf('id="' + MARKER_ID + '"') === -1) {
+      block += '<defs>' + MARKER_HTML + '</defs>';
+    }
 
     const insertAt = openTagEnd + 1;
-    return svg.slice(0, insertAt) + styleBlock + svg.slice(insertAt);
+    return svg.slice(0, insertAt) + block + svg.slice(insertAt);
   }
 
   exportSvg() {
